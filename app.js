@@ -1,6 +1,6 @@
 const express = require("express");
 const log = require("lighthouse-logger");
-const runner = require("./runner");
+const lighthouse = require("./lighthouse");
 
 const app = express();
 const port = 9000;
@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   };
   log.setLevel(opts.logLevel);
 
-  runner
+  lighthouse
     .launchChromeAndRunLighthouse(
       "https://www.americanexpress.com/us/credit-cards/business?test=test",
       opts
