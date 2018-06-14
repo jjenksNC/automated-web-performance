@@ -6,15 +6,19 @@ const config = require("./config");
 const app = express();
 const port = 9000;
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   log.setLevel(config.flags.logLevel);
 
-  lighthouse
-    .launchChromeAndRunLighthouse(config.url, config.flags)
-    .then(results => {
-      console.log("Sending results...");
-      res.send(results.audits);
-    });
+  try {
+    const response = await lighthouse.launchChromeAndRunLighthouse(
+      config.url,
+      config.flags
+    );
+    console.log("Sending Results...");
+    res.json(response.audits);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 console.log(`listening on port ${port}`);
