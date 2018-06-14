@@ -7,12 +7,10 @@ function launchChromeAndRunLighthouse(url, opts, config = null) {
     .then(chrome => {
       opts.port = chrome.port;
       return lighthouse(url, opts, config).then(results => {
-        return Promise.resolve(results)
-          .then(chrome.kill())
-          .catch(e => console.log("ERROR:", e));
+        return Promise.resolve(results).then(chrome.kill());
       });
     })
-    .catch(e => console.log("NO CHROME:", e));
+    .catch(e => console.log("Error Launching Chrome:", e));
 }
 
 module.exports = {
